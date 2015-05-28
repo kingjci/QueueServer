@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "debug.h"
-
-
+#include "queue.h"
+#include "globals.h"
 
 
 #ifndef debug

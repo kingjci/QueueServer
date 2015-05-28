@@ -12,9 +12,28 @@ extern HANDLE lock_console;
 DWORD WINAPI client_thread(LPVOID IPpARAMETER)
 {
 	SOCKET client_socket = (SOCKET)IPpARAMETER;
-	WCHAR receive[MAXBUFFER];
+	char receive_buffer[MAXBUFFER];
+	WCHAR w_receive_buffer[MAXBUFFER];
+	int status;
+
+	int id_current_thread = GetCurrentThreadId();
+
+	/***
+	while (true)
+	{
+		
+		memset(receive_buffer, 0, sizeof(receive_buffer));
+		receive(client_socket, receive_buffer);
+		char_to_wchar(receive_buffer, w_receive_buffer);
+
+		console((L"%ls\n", w_receive_buffer));
+
+		send(client_socket, receive_buffer);
+		
 
 
+	}
+	*/
 
 
 
@@ -113,7 +132,6 @@ DWORD WINAPI server_thread(LPVOID IPpARAMETER)
 		}
 		console((L"服务器:创建客户端线程%d\n\n", id_client_thread));
 
-		closesocket(client_socket);
 		CloseHandle(handle_client_thread);
 
 	}
