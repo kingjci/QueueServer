@@ -11,12 +11,12 @@ extern HANDLE lock_console;
 
 DWORD WINAPI client_thread(LPVOID IPpARAMETER)
 {
-	SOCKET client_socket = (SOCKET)IPpARAMETER;
-	char receive_buffer[MAXBUFFER];
-	WCHAR w_receive_buffer[MAXBUFFER];
-	int status;
+	//SOCKET client_socket = (SOCKET)IPpARAMETER;
+	//char receive_buffer[MAXBUFFER];
+	//WCHAR w_receive_buffer[MAXBUFFER];
+	//int status;
 
-	int id_current_thread = GetCurrentThreadId();
+	//int id_current_thread = GetCurrentThreadId();
 
 	/***
 	while (true)

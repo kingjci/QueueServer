@@ -7,8 +7,8 @@
 
 extern HANDLE lock_console;
 extern int id_child_thread;
-extern PUSER_LIST user_list;
-extern PQUEUE_HEAD queue_list;
+extern PUSER user_list;
+extern PQUEUE_LIST queue_list;
 
 
 

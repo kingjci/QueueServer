@@ -3,14 +3,14 @@
 
 #include <windows.h>
 
-typedef struct _USER_LIST{
+typedef struct _USER{
 
 	WCHAR name[20];
 	WCHAR password[50];
 	int   permission[2];
 	struct _USER_LIST *next;
 
-} USER_LIST, *PUSER_LIST;
+} USER, *PUSER;
 
 typedef struct _LOGIN_USER_LIST{
 

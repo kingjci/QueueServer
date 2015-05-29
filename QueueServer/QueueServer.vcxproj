@@ -26,6 +26,7 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="queue.h" />
+    <ClInclude Include="QueueServer.h" />
     <ClInclude Include="thread.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
@@ -64,6 +65,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <CallingConvention>Cdecl</CallingConvention>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

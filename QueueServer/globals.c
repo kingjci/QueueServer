@@ -18,9 +18,9 @@ int id_child_thread;
 
 //User list related
 
-PUSER_LIST user_list;
+PUSER user_list;
 
 
 //Queue list related;
 
-PQUEUE_HEAD queue_list;
+PQUEUE_LIST queue_list;

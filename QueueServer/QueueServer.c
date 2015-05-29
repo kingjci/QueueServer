@@ -9,7 +9,7 @@
 #include "debug.h"
 
 
-#ifdef debug
+#ifdef test
 #define main __run__test__
 #endif
 
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 
 	return 0;
 	*/
-
+	setlocale(LC_ALL, "");
 	
 
 	int status;
