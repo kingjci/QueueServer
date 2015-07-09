@@ -1,6 +1,7 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
+#include <windows.h>
 #include "debug.h"
 
 #define MAXBUFFER 2048
@@ -46,13 +47,12 @@
 	WCHAR w_receive_buffer[MAXBUFFER];
 	int status;
 
+
+	需要检测函数的返回值  int status = char_to_wchar(buffer, w_buffer);
 */
 
-#define char_to_wchar(buffer, w_buffer) status = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, buffer, -1, w_buffer, 50); \
-										if (!status) \
-										{ \
-											console((L"客户端线程%d字符串转换失败...\n", id_current_thread)); \
-										} \
+#define char_to_wchar(buffer, w_buffer)  MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, buffer, -1, w_buffer, 50)
+										
 
 
 
@@ -61,6 +61,9 @@
 
 #define new(type) (type *)malloc(sizeof(type))
 
+#define new_wstring(p_wstring) (PWCHAR)malloc(wcslen(p_wstring)*sizeof(WCHAR) + 2)
+
+#define wstring_copy(destination, source) wcscpy_s(destination, wcslen(source)+1, source)
 
 
 

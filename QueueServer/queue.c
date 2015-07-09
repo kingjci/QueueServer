@@ -64,24 +64,27 @@ PQUEUE_HEAD queue_create(PWCHAR name, int ack)
 
 int queue_produce(PWCHAR data, PQUEUE_HEAD queue)
 {
-
+	WCHAR buffer[100];
 	PQUEUE_NODE p = new(QUEUE_NODE);
 	if (!p)
 	{
-		console((L"无法分配队列数据..."));
+		console((L"无法分配队列数据...\n"));
 		return -1;
 	}
 
 	p->next = NULL;
 	p->data = NULL;
 
-	PWCHAR q = (PWCHAR)malloc(sizeof(data) + 1);
+	PWCHAR q = (PWCHAR)malloc(wcslen(data)*sizeof(WCHAR) + 2);
+
+
 	if (!q)
 	{
-		console((L"无法分配队列数据..."));
+		console((L"无法分配队列数据...\n"));
 		return -1;
 	}
-	wcscpy_s(q, wcslen(data) + 1, data);
+	wcscpy_s(q, wcslen(data)+1, data);
+	debug_console((L"%s\n",q));
 	p->data = q;
 
 	WaitForSingleObject(queue->lock_rear, INFINITE);
@@ -106,12 +109,8 @@ int queue_produce(PWCHAR data, PQUEUE_HEAD queue)
 	}
 
 
-
-
-	#ifdef debug
-	console((L"队列%ls放入%ls,队列%ls共有消息:%d,一共有消息:%d\n", \
+	debug_console((L"队列%ls放入一条消息%ls,队列%ls共有消息:%d,一共有消息:%d\n", \
 		queue->name, data, queue->name, queue->count, queue_list->total_count));
-	#endif
 
 	return 0;
 }
@@ -150,7 +149,7 @@ int queue_consume(PWCHAR data, PQUEUE_HEAD queue)
 			*/
 
 			status = WaitForSingleObject(queue->lock_rear, 0);
-			if (status == WAIT_OBJECT_0)
+			if (status == WAIT_ABANDONED)
 			{
 				/*
 					对应于已经获取前锁，但是还没有获取后锁。如果这个时候队列中没有元素，正要入队列，
@@ -180,8 +179,9 @@ int queue_consume(PWCHAR data, PQUEUE_HEAD queue)
 			else if (queue->count == 0)
 			{
 				ReleaseMutex(queue->lock_rear);
+				ReleaseMutex(queue->lock_front);//如果放在最后，在produce等后锁的过程中，这里在等event，而由于produce在等后锁永远不会setevent形成死锁。
 				WaitForSingleObject(queue->event_empty, INFINITE);
-				ReleaseMutex(queue->lock_front);
+				
 				continue;
 			}
 			else
